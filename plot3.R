@@ -22,30 +22,34 @@ dat<-read.csv(file = "household_power_consumption.txt",sep=";",colClasses = cc, 
 #Setting the colnames for the imported data file set. This was warranted as i have to skip the data import for the first 66K rows
 colnames(dat)<-cname
 
+## converting the Date character column into Date
 dat$Date <-  as.Date(dat$Date,"%d/%m/%Y")
 
+##Concatenating Date with Time and assigning it to Time column in dataframe
 dat$Time <- strptime(paste(dat$Date,dat$Time),format = "%Y-%m-%d %H:%M:%S")
 
+## Setting the graphical parameter to 1 row and 1 col.
+par(mfrow = c(1,1))
 
+## Setting up the plotting area with type = n
 with(dat, plot(Time, Sub_metering_1, type = "n", ylab = "Energy sub metering", xlab = ""))
 
+##Adding Points to existing plot with type = 1 to indicate lines and using default black color
 with(dat, points(Time, Sub_metering_1, type = "l" ))
 
+##Adding Points to existing plot with type = 1 to indicate lines and using red color
 with(dat, points(Time, Sub_metering_2, type = "l",col="red" ))
 
+##Adding Points to existing plot with type = 1 to indicate lines and using blue color
 with(dat, points(Time, Sub_metering_3, type = "l",col="blue" ))
 
+##Adding legend, specifying text values, color values, setting cex arguement to reduce the size
 legend("topright", legend = c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),col=c("black","red","blue"),lwd = 2, cex=0.7)
 
+## Copying the output from one device to another
 dev.copy(png, "plot3.png", height =480, width = 480)
 
+# Closing the png device opened
 dev.off()
-
-
-
-dev.copy(png, "plot2.png", height =480, width = 480)
-
-dev.off()
-
 
 
